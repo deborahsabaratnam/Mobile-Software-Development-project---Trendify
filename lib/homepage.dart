@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
     'assets/images/image4.jpg',
   ];
 
-  // 🔍 Example product list (replace with Firestore later)
+  // Example product list (replace with Firestore later)
   final List<Map<String, String>> allProducts = [
     {"name": "Red Summer Dress"},
     {"name": "Casual Shirt"},
@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
 
-      // 🔷 APP BAR
+      // APP BAR
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              // 🔍 SEARCH BAR (NOW WORKING)
+              // SEARCH BAR (NOW WORKING)
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
@@ -116,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SizedBox(height: 20),
 
-              // 🔥 SEARCH RESULTS (shows when typing)
+              // SEARCH RESULTS (shows when typing)
               if (searchText.isNotEmpty)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
 
-              // 🔷 CATEGORY ROW
+              // CATEGORY ROW
               SizedBox(
                 height: 40,
                 child: ListView(
@@ -199,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SizedBox(height: 15),
 
-              // 🔥 IMAGE SLIDER
+              // IMAGE SLIDER
               Stack(
                 children: [
                   SizedBox(
@@ -276,7 +276,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
 
-      // 🔻 BOTTOM NAV
+      // BOTTOM NAV
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.grey,
@@ -319,7 +319,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// 🔘 CATEGORY CHIP
+// CATEGORY CHIP
 class CategoryChip extends StatelessWidget {
   final String label;
 
