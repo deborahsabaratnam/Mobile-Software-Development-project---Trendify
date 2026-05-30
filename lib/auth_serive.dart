@@ -33,11 +33,11 @@ class AuthService {
     }
   }
 
-  // 🚪 LOGOUT
+  // LOGOUT
   Future<void> logout() async {
     await _auth.signOut();
   }
 
-  // 👤 CURRENT USER
+  // CURRENT USER
   User? get currentUser => _auth.currentUser;
 }
