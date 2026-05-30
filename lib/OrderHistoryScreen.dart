@@ -73,7 +73,7 @@ class OrderHistoryScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
 
-                    // 🟢 STATUS + TOTAL
+                    // STATUS + TOTAL
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -115,7 +115,7 @@ class OrderHistoryScreen extends StatelessWidget {
 
                     const SizedBox(height: 8),
 
-                    // 🟢 ITEMS LIST (FIXED)
+                    // ITEMS LIST (FIXED)
                     Column(
                       children: List.generate(items.length, (i) {
                         final item = items[i];
