@@ -13,7 +13,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   final userId = FirebaseAuth.instance.currentUser!.uid;
 
-  // ➕ Increase quantity
+  // Increase quantity
   Future<void> increaseQty(String docId, int qty) async {
     await FirebaseFirestore.instance
         .collection('cart')
@@ -23,7 +23,7 @@ class _CartScreenState extends State<CartScreen> {
         .update({'quantity': qty + 1});
   }
 
-  // ➖ Decrease quantity
+  // Decrease quantity
   Future<void> decreaseQty(String docId, int qty) async {
     if (qty <= 1) return;
 
@@ -35,7 +35,7 @@ class _CartScreenState extends State<CartScreen> {
         .update({'quantity': qty - 1});
   }
 
-  // 🗑 Remove item
+  //  Remove item
   Future<void> removeItem(String docId) async {
     await FirebaseFirestore.instance
         .collection('cart')
@@ -82,7 +82,7 @@ class _CartScreenState extends State<CartScreen> {
             );
           }
 
-          // 💰 TOTAL CALCULATION
+          //  TOTAL CALCULATION
           double total = 0;
 
           for (var item in items) {
