@@ -48,7 +48,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
 
-      // 🔙 APP BAR
+      // APP BAR
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -62,7 +62,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         ),
       ),
 
-      // 🔥 FIRESTORE DATA
+      // FIRESTORE DATA
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('Products')
@@ -176,7 +176,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
                     const SizedBox(height: 2),
 
-                    // 💰 PRICE
+                    // PRICE
                     Text(
                       "LKR $price",
                       style: const TextStyle(
@@ -192,7 +192,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         },
       ),
 
-      // 🔻 BOTTOM NAV
+      // BOTTOM NAV
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.grey,
