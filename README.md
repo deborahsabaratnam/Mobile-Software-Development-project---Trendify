@@ -37,7 +37,7 @@ This project demonstrates mobile application development, Firebase integration, 
 
 - Product Details
 
-<img src="Trendify%20screenshots/productdetails1.png" width="150" alt="Product detail">   <img src="Trendify%20screenshots/Productdetails2.png" width="150" alt="Product details">
+<img src="Trendify%20screenshots/productdetails1.png" width="150" alt="Product detail">   <img src="Trendify%20screenshots/productdetailes2.png" width="150" alt="Product Details">
 
 
 - Shopping Cart
