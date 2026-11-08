@@ -28,7 +28,7 @@ This project demonstrates mobile application development, Firebase integration, 
 
 ## Screenshots
 - Login and Registration
-![Login Page](login page.png)
+![Login Page](loginpage.png)
   
 - Homepage and Product Collections
 - Product Details
