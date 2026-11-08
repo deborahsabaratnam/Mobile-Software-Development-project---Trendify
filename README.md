@@ -36,9 +36,29 @@ This project demonstrates mobile application development, Firebase integration, 
 
 
 - Product Details
+
+<img src="Trendify%20screenshots/productdetails1.png" width="150" alt="Product detail">   <img src="Trendify%20screenshots/Productdetails2.png" width="150" alt="Product details">
+
+
 - Shopping Cart
+
+<img src="Trendify%20screenshots/shoppingcart.png" width="150" alt="Shopping Cart">
+
+
 - Checkout
+
+<img src="Trendify%20screenshots/checkout.png" width="150" alt="Checkout">
+
+
 - Order History
+
+<img src="Trendify%20screenshots/orderhistory.png" width="150" alt="Order History">
+
+
+-My Profiel
+
+<img src="Trendify%20screenshots/myprofile.png" width="150" alt="My Profile">
+
 
 ## How to Run the Project
 
