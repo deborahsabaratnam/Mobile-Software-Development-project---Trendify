@@ -28,9 +28,12 @@ This project demonstrates mobile application development, Firebase integration, 
 
 ## Screenshots
 - Login and Registration
-<img src="Trendify%20screenshots/loginpage.png" width="250" alt="Login Page">
+<img src="Trendify%20screenshots/loginpage.png" width="150" alt="Login Page">
   
 - Homepage and Product Collections
+<img src="Trendify%20screenshots/homepage1.png" width="150" alt="Home Page">
+<img src="Trendify%20screenshots/homepage2.png" width="150" alt="Home Page / Carousel -2">
+<img src="Trendify%20screenshots/homepage3.png" width="150" alt="Home Page / Carousel -3">
 - Product Details
 - Shopping Cart
 - Checkout
