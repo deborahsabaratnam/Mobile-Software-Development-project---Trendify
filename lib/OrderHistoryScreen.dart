@@ -13,10 +13,7 @@ class OrderHistoryScreen extends StatelessWidget {
       backgroundColor: Colors.white,
 
       appBar: AppBar(
-        title: const Text(
-          "My Orders",
-          style: TextStyle(color: Colors.black),
-        ),
+        title: const Text("My Orders", style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
@@ -42,9 +39,7 @@ class OrderHistoryScreen extends StatelessWidget {
           final orders = snapshot.data?.docs ?? [];
 
           if (orders.isEmpty) {
-            return const Center(
-              child: Text("No orders found"),
-            );
+            return const Center(child: Text("No orders found"));
           }
 
           return ListView.builder(
@@ -72,22 +67,17 @@ class OrderHistoryScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
-                    // STATUS + TOTAL
+                    // 🟢 STATUS + TOTAL
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           "Status: $status",
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
                           "Rs. $total",
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -115,7 +105,7 @@ class OrderHistoryScreen extends StatelessWidget {
 
                     const SizedBox(height: 8),
 
-                    // ITEMS LIST (FIXED)
+                    // 🟢 ITEMS LIST (FIXED)
                     Column(
                       children: List.generate(items.length, (i) {
                         final item = items[i];
@@ -123,6 +113,7 @@ class OrderHistoryScreen extends StatelessWidget {
                         final name = item['name'] ?? '';
                         final price = item['price'] ?? 0;
                         final qty = item['quantity'] ?? 1;
+                        final size = (item['size'] ?? '').toString();
 
                         final itemTotal = price * qty;
 
@@ -134,14 +125,31 @@ class OrderHistoryScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Expanded(
-                                child: Text(
-                                  "$name x$qty",
-                                  style: const TextStyle(fontSize: 12),
-                                  overflow: TextOverflow.ellipsis,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "$name x$qty",
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+
+                                    if (size.isNotEmpty) ...[
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        "Size: $size",
+                                        style: const TextStyle(
+                                          fontSize: 11,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
+                                  ],
                                 ),
                               ),
                               Text(

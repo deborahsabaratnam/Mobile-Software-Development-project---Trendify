@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fashion_app/category_screen.dart';
 import 'package:fashion_app/cart_screen.dart';
 import 'package:fashion_app/profile_screen.dart';
+import 'notifications_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'product_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,24 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
     'assets/images/image4.jpg',
   ];
 
-  // Example product list (replace with Firestore later)
-  final List<Map<String, String>> allProducts = [
-    {"name": "Red Summer Dress"},
-    {"name": "Casual Shirt"},
-    {"name": "Evening Gown"},
-    {"name": "Summer Floral Dress"},
-  ];
-
-  List<Map<String, String>> get filteredProducts {
-    if (searchText.isEmpty) return allProducts;
-
-    return allProducts.where((product) {
-      return product["name"]!
-          .toLowerCase()
-          .contains(searchText.toLowerCase());
-    }).toList();
-  }
-
   @override
   void dispose() {
     _searchController.dispose();
@@ -54,22 +39,29 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
 
-      // APP BAR
+      // 🔷 APP BAR
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: const [
-            Text("Trendi",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            Text("f",
-                style: TextStyle(
-                    fontSize: 24,
-                    fontFamily: 'cursive',
-                    fontWeight: FontWeight.bold)),
-            Text("y",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(
+              "Trendi",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              "f",
+              style: TextStyle(
+                fontSize: 24,
+                fontFamily: 'cursive',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              "y",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
         actions: [
@@ -81,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 MaterialPageRoute(builder: (context) => const CartScreen()),
               );
             },
-          )
+          ),
         ],
       ),
 
@@ -91,8 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-              // SEARCH BAR (NOW WORKING)
+              // 🔍 SEARCH BAR (NOW WORKING)
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
@@ -116,27 +107,89 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SizedBox(height: 20),
 
-              // SEARCH RESULTS (shows when typing)
-              if (searchText.isNotEmpty)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Search Results",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 10),
+              // FIREBASE SEARCH RESULTS
+              if (searchText.trim().isNotEmpty)
+                StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                  stream: FirebaseFirestore.instance
+                      .collection('Products')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return const Text("Unable to search products");
+                    }
 
-                    ...filteredProducts.map((product) {
-                      return ListTile(
-                        leading: const Icon(Icons.shopping_bag),
-                        title: Text(product["name"]!),
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    final results = snapshot.data!.docs.where((doc) {
+                      final name = (doc.data()['Name'] ?? '').toString();
+
+                      return name.toLowerCase().contains(
+                        searchText.trim().toLowerCase(),
                       );
-                    }).toList(),
+                    }).toList();
 
-                    const SizedBox(height: 20),
-                  ],
+                    if (results.isEmpty) {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        child: Text("No matching products found"),
+                      );
+                    }
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Search Results",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        ...results.map((doc) {
+                          final product = doc.data();
+                          final name = (product['Name'] ?? '').toString();
+                          final category = (product['Category'] ?? '')
+                              .toString();
+                          final price = product['Price'] ?? 0;
+                          final image = (product['Image'] ?? '').toString();
+
+                          return ListTile(
+                            leading: SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: Image.network(
+                                image,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Icon(Icons.image_not_supported);
+                                },
+                              ),
+                            ),
+                            title: Text(name),
+                            subtitle: Text("LKR $price"),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => ProductDetailsScreen(
+                                    product: product,
+                                    productId: doc.id,
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }),
+
+                        const SizedBox(height: 20),
+                      ],
+                    );
+                  },
                 ),
 
               // CATEGORY ROW
@@ -145,7 +198,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -229,8 +281,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           shape: BoxShape.circle,
                         ),
                         padding: const EdgeInsets.all(8),
-                        child: const Icon(Icons.arrow_back_ios,
-                            color: Colors.white, size: 16),
+                        child: const Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                          size: 16,
+                        ),
                       ),
                       onPressed: () {
                         if (currentPage > 0) {
@@ -250,12 +305,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: IconButton(
                       icon: Container(
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.4),
+                          color: Colors.black.withValues(alpha: 0.4),
                           shape: BoxShape.circle,
                         ),
                         padding: const EdgeInsets.all(8),
-                        child: const Icon(Icons.arrow_forward_ios,
-                            color: Colors.white, size: 16),
+                        child: const Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                          size: 16,
+                        ),
                       ),
                       onPressed: () {
                         if (currentPage < images.length - 1) {
@@ -278,21 +336,33 @@ class _HomeScreenState extends State<HomeScreen> {
 
       // BOTTOM NAV
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.grey,
         currentIndex: 0,
         onTap: (index) {
-          if (index == 3) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ProfileScreen()),
-            );
-          }
-          if (index == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const CartScreen()),
-            );
+          switch (index) {
+            case 0:
+              // Already on HomeScreen, do nothing
+              break;
+            case 1:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const CartScreen()),
+              );
+              break;
+            case 2:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+              );
+              break;
+            case 3:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ProfileScreen()),
+              );
+              break;
           }
         },
         items: const [
@@ -310,10 +380,7 @@ class _HomeScreenState extends State<HomeScreen> {
       margin: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        image: DecorationImage(
-          image: AssetImage(imagePath),
-          fit: BoxFit.cover,
-        ),
+        image: DecorationImage(image: AssetImage(imagePath), fit: BoxFit.cover),
       ),
     );
   }

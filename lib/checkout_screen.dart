@@ -20,9 +20,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   Future<void> placeOrder(List cartItems) async {
     if (user == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("User not logged in")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("User not logged in")));
       return;
     }
 
@@ -71,9 +71,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     } catch (e) {
       setState(() => isLoading = false);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Failed to place order")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Failed to place order")));
     }
   }
 
@@ -82,11 +82,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
-      return const Scaffold(
-        body: Center(
-          child: Text("User not logged in"),
-        ),
-      );
+      return const Scaffold(body: Center(child: Text("User not logged in")));
     }
 
     double total = widget.subtotal;
@@ -121,6 +117,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               "name": data['name'] ?? '',
               "price": data['price'] ?? 0,
               "quantity": data['quantity'] ?? 1,
+              "size": data['size'] ?? '',
+              "productId": data['productId'] ?? '',
             };
           }).toList();
 
@@ -129,9 +127,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-                const Text("Delivery Address",
-                    style: TextStyle(fontWeight: FontWeight.bold)),
+                const Text(
+                  "Delivery Address",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 8),
 
                 TextField(
@@ -144,8 +143,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
                 const SizedBox(height: 20),
 
-                const Text("Order Summary",
-                    style: TextStyle(fontWeight: FontWeight.bold)),
+                const Text(
+                  "Order Summary",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
 
                 const SizedBox(height: 10),
 
@@ -162,7 +163,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         children: [
                           Expanded(
                             child: Text(
-                              "${item['name']} x${item['quantity']}",
+                              "${item['name']}"
+                              "${(item['size'] ?? '').toString().isNotEmpty ? ' - Size: ${item['size']}' : ''}"
+                              " x${item['quantity']}",
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
@@ -178,8 +181,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Total",
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    const Text(
+                      "Total",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     Text("Rs. $total"),
                   ],
                 ),
@@ -193,8 +198,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       backgroundColor: Colors.black,
                       padding: const EdgeInsets.all(15),
                     ),
-                    onPressed:
-                        isLoading ? null : () => placeOrder(cartItems),
+                    onPressed: isLoading ? null : () => placeOrder(cartItems),
                     child: isLoading
                         ? const CircularProgressIndicator(color: Colors.white)
                         : const Text("Place Order"),

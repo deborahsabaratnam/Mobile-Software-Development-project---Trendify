@@ -13,7 +13,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   final userId = FirebaseAuth.instance.currentUser!.uid;
 
-  // Increase quantity
+  // ➕ Increase quantity
   Future<void> increaseQty(String docId, int qty) async {
     await FirebaseFirestore.instance
         .collection('cart')
@@ -23,7 +23,7 @@ class _CartScreenState extends State<CartScreen> {
         .update({'quantity': qty + 1});
   }
 
-  // Decrease quantity
+  // ➖ Decrease quantity
   Future<void> decreaseQty(String docId, int qty) async {
     if (qty <= 1) return;
 
@@ -35,7 +35,7 @@ class _CartScreenState extends State<CartScreen> {
         .update({'quantity': qty - 1});
   }
 
-  //  Remove item
+  // 🗑 Remove item
   Future<void> removeItem(String docId) async {
     await FirebaseFirestore.instance
         .collection('cart')
@@ -77,12 +77,10 @@ class _CartScreenState extends State<CartScreen> {
           final items = snapshot.data!.docs;
 
           if (items.isEmpty) {
-            return const Center(
-              child: Text("Your cart is empty"),
-            );
+            return const Center(child: Text("Your cart is empty"));
           }
 
-          //  TOTAL CALCULATION
+          // 💰 TOTAL CALCULATION
           double total = 0;
 
           for (var item in items) {
@@ -93,14 +91,37 @@ class _CartScreenState extends State<CartScreen> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-
                 // HEADER
                 const Row(
                   children: [
-                    Expanded(flex: 3, child: Text("Item", style: TextStyle(fontWeight: FontWeight.bold))),
-                    Expanded(flex: 2, child: Text("Price", style: TextStyle(fontWeight: FontWeight.bold))),
-                    Expanded(flex: 2, child: Text("Qty", style: TextStyle(fontWeight: FontWeight.bold))),
-                    Expanded(flex: 2, child: Text("Total", style: TextStyle(fontWeight: FontWeight.bold))),
+                    Expanded(
+                      flex: 3,
+                      child: Text(
+                        "Item",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        "Price",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        "Qty",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        "Total",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   ],
                 ),
 
@@ -118,12 +139,12 @@ class _CartScreenState extends State<CartScreen> {
                       final price = data['price'] ?? 0;
                       final qty = data['quantity'] ?? 1;
                       final image = data['image'] ?? '';
+                      final size = (data['size'] ?? '').toString();
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Row(
                           children: [
-
                             // IMAGE
                             Container(
                               width: 50,
@@ -139,19 +160,32 @@ class _CartScreenState extends State<CartScreen> {
 
                             const SizedBox(width: 10),
 
-                            // NAME
+                            // NAME AND SIZE
                             Expanded(
                               flex: 3,
-                              child: Text(
-                                name,
-                                style: const TextStyle(fontSize: 12),
-                              ),
-                            ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    name,
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
 
-                            // PRICE
-                            Expanded(
-                              flex: 2,
-                              child: Text("Rs. $price"),
+                                  if (size.isNotEmpty) ...[
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      "Size: $size",
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
                             ),
 
                             // QTY CONTROLS
@@ -160,16 +194,14 @@ class _CartScreenState extends State<CartScreen> {
                               child: Row(
                                 children: [
                                   GestureDetector(
-                                    onTap: () =>
-                                        decreaseQty(item.id, qty),
+                                    onTap: () => decreaseQty(item.id, qty),
                                     child: const Icon(Icons.remove, size: 18),
                                   ),
                                   const SizedBox(width: 5),
                                   Text("$qty"),
                                   const SizedBox(width: 5),
                                   GestureDetector(
-                                    onTap: () =>
-                                        increaseQty(item.id, qty),
+                                    onTap: () => increaseQty(item.id, qty),
                                     child: const Icon(Icons.add, size: 18),
                                   ),
                                 ],
@@ -202,12 +234,17 @@ class _CartScreenState extends State<CartScreen> {
                   children: [
                     const Text(
                       "Total",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Text(
                       "Rs. $total",
                       style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -220,8 +257,7 @@ class _CartScreenState extends State<CartScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            CheckoutScreen(subtotal: total),
+                        builder: (context) => CheckoutScreen(subtotal: total),
                       ),
                     );
                   },
