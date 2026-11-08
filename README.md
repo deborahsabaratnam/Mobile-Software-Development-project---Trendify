@@ -1,17 +1,69 @@
-# fashion_app
+# Trendify – Fashion Shopping Mobile Application
 
-A new Flutter project.
+TrEndify is a mobile fashion shopping application developed using **Flutter and Firebase**. The application provides a simple and user-friendly shopping experience, allowing customers to browse clothing collections, search for products, select sizes, manage their shopping cart, and place orders.
 
-## Getting Started
+This project demonstrates mobile application development, Firebase integration, user authentication, and database management.
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+- **User Authentication:** Email/password login, registration, and Google Sign-In.
+- **Product Browsing:** Explore clothing collections such as Summer, Casual, and Evening Wear.
+- **Product Search:** Search for available products by name.
+- **Product Details:** View product images, names, prices, and available descriptions.
+- **Size Selection:** Choose clothing sizes (S, M, L, XL).
+- **Quantity Selection:** Select the required quantity before adding products to the cart.
+- **Shopping Cart:** Add, update, and remove products, with separate entries for different sizes.
+- **Checkout:** Enter a delivery address and place orders using Cash on Delivery (COD).
+- **Order History:** View previous orders, purchased products, quantities, sizes, and order status.
+- **Notifications Screen:** Basic notification interface.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## Technologies Used
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Flutter & Dart** – Mobile application development
+- **Firebase Authentication** – User authentication
+- **Cloud Firestore** – Product, cart, and order data storage
+- **Firebase Console** – Backend configuration and management
+- **Visual Studio Code** – Development environment
+- **Git & GitHub** – Version control
+
+## Screenshots
+- Login and Registration
+  
+- Homepage and Product Collections
+- Product Details
+- Shopping Cart
+- Checkout
+- Order History
+
+## How to Run the Project
+
+1. Clone this repository.
+2. Open the project in Visual Studio Code or Android Studio.
+3. Install Flutter dependencies:
+
+   `flutter pub get`
+
+4. Configure Firebase for your own project using FlutterFire CLI.
+5. Run the application:
+
+   `flutter run`
+
+## Project Purpose
+
+Trendify was developed as a mobile software development project to demonstrate practical skills in creating an interactive shopping application using Flutter and Firebase.
+
+The project showcases frontend UI development, integration with cloud-based services, and implementation of a basic e-commerce workflow.
+
+## Future Improvements
+
+- Wishlist and favorites
+- Product stock management
+- Real-time order notifications
+- Additional payment methods
+- Improved order tracking
+
+## Developer
+
+**Deborah Sabaratnam**
+
+GitHub: https://github.com/deborahsabaratnam
