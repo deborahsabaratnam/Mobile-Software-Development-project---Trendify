@@ -28,7 +28,7 @@ This project demonstrates mobile application development, Firebase integration, 
 
 ## Screenshots
 - Login and Registration
-![Login Page]("Trendify%20screenshots/loginpage.png"width="250" alt="Login Page")
+<img src="Trendify%20screenshots/loginpage.png" width="250" alt="Login Page">
   
 - Homepage and Product Collections
 - Product Details
