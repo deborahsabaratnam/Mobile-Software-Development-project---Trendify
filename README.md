@@ -79,6 +79,14 @@ Trendify was developed as a mobile software development project to demonstrate p
 
 The project showcases frontend UI development, integration with cloud-based services, and implementation of a basic e-commerce workflow.
 
+##Image Credits & Disclaimer
+
+Trndify is an educational project developed for demonstration and portfolio purposes.
+
+Some product images were sourced through Pinterest and are used for illustrative purposes only. The images belong to their respective copyright owners.
+
+This application is not intended for commercial use or the sale of the products displayed.
+
 ## Future Improvements
 
 - Wishlist and favorites
